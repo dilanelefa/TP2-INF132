@@ -2,7 +2,7 @@
 #define MAGASIN_H
 
 typedef struct Article{
-	char code[10];
+	int code_article;
 	char nom_article[20];
 	int qute_stock_article;
 	int qute_seuil_article;
@@ -22,14 +22,6 @@ typedef struct Vendeur{
 	float salaire;
 }Vendeur;
 
-typedef struct commande{
-	int numero_cmd;
-	int numero_client;
-	char **code_article;
-	int *qute_article;
-	char matricule[10];
-}
-
 int ajout_article();
 int supprimer_article(char *);
 int modifier_artice(char *);
@@ -38,14 +30,17 @@ Article * lecture_article( int *);
 
 
 int recherche_vendeur(char *);
-vendeur * lecture_vendeur(int *);
+Vendeur * lecture_vendeur(int *);
 int ajouter_vendeur();
 int supprimer_vendeur(char *);
 int modifier(char *);
 
 int recherche_client(int *);
-client * lecture_client(int *);
+Client * lecture_client(int *);
 int ajouter_vendeur();
 int supprimer_vendeur(char *);
 int modifier(char *);
+
+
+#endif
 
