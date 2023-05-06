@@ -142,6 +142,7 @@ Commande *lecture_cmd(int *n){
 			tokens = strtok(NULL, ",");
 			j++;
 		}
+		free(buffer);
 		i++;
 	}while(!feof(f));
 	
