@@ -9,8 +9,7 @@
 int ajout_article(){
 	Article art;
 	printf("Entrer le code: ");
-	scanf("%[^\n]", art.code_article);
-	getchar();
+	scanf("%d", &art.code_article);
 	printf("Entrer le nom de l'article: ");
 	scanf("%[^\n]", art.nom_article);
 	getchar();
@@ -25,7 +24,7 @@ int ajout_article(){
 	FILE *fp = fopen(article , "a");
 	if(fp == NULL )
 		return 0;
-	fprintf(fp , "%s, %s, %d, %d, %f\n", art.code_article , art.nom_article , art.qute_stock_article, art.qute_seuil_article, art.prix_unitaire_article); 
+	fprintf(fp , "%d, %s, %d, %d, %f\n", art.code_article , art.nom_article , art.qute_stock_article, art.qute_seuil_article, art.prix_unitaire_article); 
 	fclose(fp);
 	return 1;	
 }
@@ -42,7 +41,7 @@ Article * lecture_article(int *n ){
 		if( i == 0) art = malloc(sizeof(*art));
 		else art = realloc(art , (i+1)*sizeof(*art));
 		if( art ==  NULL) return NULL;
-		fscanf(fp , "%[^,], %[^,], %d, %d, %f\n", art[i].code_article , art[i].nom_article , &art[i].qute_stock_article, &art[i].qute_seuil_article, &art[i].prix_unitaire_article);
+		fscanf(fp , "%d, %[^,], %d, %d, %f\n", &art[i].code_article , art[i].nom_article , &art[i].qute_stock_article, &art[i].qute_seuil_article, &art[i].prix_unitaire_article);
 		i++;
 	}while(!feof(fp));
 	fclose(fp);
@@ -52,7 +51,7 @@ Article * lecture_article(int *n ){
 
 
 //suppression d'un article par son code
-int supprimer_article(char *code){
+int supprimer_article(int code){
 	int k ,n ,i;
 	k = rechercher_article(code);
 	Article *art = lecture_article(&n);
@@ -68,11 +67,11 @@ int supprimer_article(char *code){
 }
 
 
-int rechercher_article(char *code){
+int rechercher_article(int code){
 	int i, n ;
 	Article *art = lecture_article(&n);
 	for(i = 0; i < n; i++){
-		if( strcmp(toUpperCase(code), toUpperCase(art[i].code_article)) == 0)
+		if(art[i].code_article == code)
 			return i;
 	}
 	return -1;

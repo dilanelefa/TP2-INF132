@@ -23,9 +23,9 @@ typedef struct Vendeur{
 }Vendeur;
 
 int ajout_article();
-int supprimer_article(char *);
-int modifier_artice(char *);
-int rechercher_article(char *);
+int supprimer_article(int);
+int modifier_artice(int);
+int rechercher_article(int);
 Article * lecture_article( int *);
 
 
