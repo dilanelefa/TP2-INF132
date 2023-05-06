@@ -129,13 +129,18 @@ Commande *lecture_cmd(int *n){
 		else cmd = realloc(cmd , (i+1)*sizeof(Commande));
 		if( cmd == NULL)
 			return NULL; // le return NULL permet de connaitre si l'allocation s'est faite ou pas
-		fscanf(f, "%[^,], %d, %[^,], qute: %d,", cmd[i].numero_cmd , &cmd[i].numero_client, cmd[i].matricule, &cmd[i].taille );
+		char *buffer = malloc(150*sizeof(char));
+		fscanf(f, "%[^,], %d, %[^,], qute: %d,%s\n", cmd[i].numero_cmd , &cmd[i].numero_client, cmd[i].matricule, &cmd[i].taille , buffer );
 		cmd[i].code_article = malloc(taille*sizeof(int));
 		cmd[i].qute_article = malloc(taille*sizeof(int));
 		if(cmd[i].code_article == NULL || cmd[i].qute_article == NULL)
 			return NULL;
-		for(j = 0; j < taille ; j++){
-			fscanf(f,"%d-%d,", &cmd[i].code_article[j], &cmd[i].qute_article[j]);
+		char *tokens = strtok(buffer, ",");
+		j = 0;
+		while( tokens != NULL){
+			sscanf(tokens, "%d-%d", &cmd[i].code_article[j], &cmd[i].qute_article[j]);
+			tokens = strtok(NULL, ",");
+			j++;
 		}
 		i++;
 	}while(!feof(f));
@@ -173,13 +178,14 @@ int supprimer_cmd(char *num){
 		return 0;
 	for(int k = 0; k < n; k++){
 		if(k != i ){
-			fprintf(file, "%s, %d, qute: %d,", cmd[i].numero_cmd, cmd[i].numero_client, cmd[i].taille);
+			fprintf(file, "%s, %d, %s, qute: %d,", cmd[i].numero_cmd, cmd[i].numero_client,cmd[i].matricule, cmd[i].taille);
 			for(i = 0; i < cmd[i].taille ; i++)
 			{
 				fprintf(file, "%d-%d,", cmd[i].code_article[i], cmd[i].qute_article[i]);
 			}
 			fprintf(file , "%s\n", cmd[i].matricule);		
 			}
+		fprintf(file , "\n");
 	}
 	
 	fclose(file);
