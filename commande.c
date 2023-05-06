@@ -183,9 +183,8 @@ int supprimer_cmd(char *num){
 			{
 				fprintf(file, "%d-%d,", cmd[i].code_article[i], cmd[i].qute_article[i]);
 			}
-			fprintf(file , "%s\n", cmd[i].matricule);		
-			}
-		fprintf(file , "\n");
+			fprintf(file , "\n");		
+		}
 	}
 	
 	fclose(file);
